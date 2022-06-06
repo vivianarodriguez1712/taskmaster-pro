@@ -202,6 +202,15 @@ $(this).children().each(function() {
     .text()
     .trim();
 
+    // trim down list's ID to match object property
+ var arrName = $(this)
+  .attr("id")
+  .replace("list-", "");
+
+// update array on tasks object and save
+tasks[arrName] = tempArr;
+saveTasks();
+
   var date = $(this)
     .find("span")
     .text()
