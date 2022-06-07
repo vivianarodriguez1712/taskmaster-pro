@@ -79,6 +79,24 @@ $("#task-form-modal .btn-primary").click(function() {
   }
 });
 
+$(".list-group").on("click", "span", function() {
+  // get current text
+  var date = $(this).text().trim();
+
+  // create new input element
+  var dateInput = $("<input>").attr("type", "text").addClass("form-control").val(date);
+
+  $(this).replaceWith(dateInput);
+
+  // enable jquery ui datepicker
+  dateInput.datepicker({
+    minDate: 1
+  });
+
+  // automatically bring up the calendar
+  dateInput.trigger("focus");
+});
+
 // task text was clicked
 $(".list-group").on("click", "p", function() {
   // get current text of p element
@@ -140,7 +158,7 @@ $(".list-group").on("click", "span", function() {
 });
 
 // value of due date was changed
-$(".list-group").on("blur", "input[type='text']", function() {
+$(".list-group").on("change", "input[type='text']", function() {
   var date = $(this).val();
 
   // get status type and position in the list
@@ -194,7 +212,6 @@ $(".card .list-group").sortable({
   },
   update: function(event) {
 var tempArr = [];
-
 // loop over current set of children in sortable list
 $(this).children().each(function() {
   var text = $(this)
@@ -225,3 +242,23 @@ saveTasks();
 
 console.log(tempArr);
   }
+})
+
+$("#trash").droppable({
+  accept: ".card .list-group-item",
+  tolerance: "touch",
+  drop: function(event, ui) {
+    console.log("drop");
+    ui.draggable.remove();
+  },
+  over: function(event, ui) {
+    console.log("over");
+  },
+  out: function(event, ui) {
+    console.log("out");
+  }
+});
+
+$("#modalDueDate").datepicker({
+  minDate: 1
+});
